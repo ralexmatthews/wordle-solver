@@ -48,6 +48,7 @@ const LetterInput = React.forwardRef(
 
             onLetterChange(letter);
           }}
+          onChange={() => {}}
         />
       </div>
       <div className="flex flex-row justify-between items-center">

@@ -4,6 +4,7 @@ import Letter from "@/components/letter";
 import LetterInput from "@/components/letter_input";
 import { wordle } from "@/utils/wordle";
 import { Color, Letter as LetterType, Word } from "@/utils/types";
+import Head from "next/head";
 
 type Props = {
   words: string[];
@@ -52,6 +53,7 @@ const Home = ({ words: suppliedWords }: Props) => {
   const hasBeenSolved =
     state.length > 0 &&
     state[state.length - 1].every((letter) => letter.color === Color.Green);
+  const hasBeenFailed = state.length >= 6 && !hasBeenSolved;
 
   React.useEffect(() => {
     if (state.length === 0 || hasBeenSolved) {
@@ -69,6 +71,13 @@ const Home = ({ words: suppliedWords }: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Wordle Solver</title>
+        <meta
+          name="description"
+          content="Solve your Wordle puzzle, the easy way"
+        />
+      </Head>
       <h1 className="text-3xl m-4">Wordle Solver</h1>
       <div className="w-full flex flex-col justify-center items-center mt-16">
         <div className="max-w-[324px]">
@@ -78,17 +87,25 @@ const Home = ({ words: suppliedWords }: Props) => {
                 key={i}
                 className="flex flex-row justify-center items-center"
               >
-                {word.map((letter) => (
-                  <Letter key={letter.letter} {...letter} />
+                {word.map((letter, j) => (
+                  <Letter key={j} {...letter} />
                 ))}
               </div>
             ))}
           </div>
-          {hasBeenSolved ? (
+          {hasBeenFailed ? (
+            <h2 className="text-2xl text-center mt-4">
+              I have failed you. I'm sorry.
+            </h2>
+          ) : hasBeenSolved ? (
             <h2 className="text-2xl text-center mt-4">Congrats!</h2>
           ) : (
             <div>
               <h2 className="text-2xl mt-4">Next Word</h2>
+              <p className="text-sm mb-4">
+                Type or select the word you entered and select what each
+                letter's color was, and then press submit.
+              </p>
               <div className="flex flex-row justify-center items-center">
                 <LetterInput
                   letter={input[0].letter}
