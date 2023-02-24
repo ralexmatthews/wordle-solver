@@ -78,7 +78,15 @@ const Home = ({ words: suppliedWords }: Props) => {
           content="Solve your Wordle puzzle, the easy way"
         />
       </Head>
-      <h1 className="text-3xl m-4">Wordle Solver</h1>
+      <div className="flex flex-row justify-between items-center">
+        <h1 className="text-3xl m-4">Wordle Solver</h1>
+        <a
+          className="m-4"
+          href="https://github.com/amatthews4851/wordle-solver"
+        >
+          GitHub
+        </a>
+      </div>
       <div className="w-full flex flex-col justify-center items-center mt-16">
         <div className="max-w-[324px]">
           <div>

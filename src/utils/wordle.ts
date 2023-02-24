@@ -5,13 +5,8 @@ import { Color, Word } from "./types";
 
 const readFile = promisify(fs.readFile);
 
-const getCommonWords = () =>
-  readFile(
-    path.join(process.cwd(), "./src/utils/common_words.txt"),
-    "utf8"
-  ).then((file) => file.split("\n"));
 const getWords = () =>
-  readFile(path.join(process.cwd(), "./src/utils/words.txt"), "utf8").then(
+  readFile(path.join(process.cwd(), "./data/sorted_words.txt"), "utf8").then(
     (file) => file.split("\n")
   );
 
@@ -38,23 +33,27 @@ const getAvailableLettersForColumn = (
 
   // if there is a black in any of the words, it cannot be that either at this
   // point, since we already checked for yellows and greens
-  words.flat().forEach((letter) => {
-    if (letter.color === Color.Black) {
-      availableLetters.delete(letter.letter);
-    }
-  });
+  words.forEach((word) =>
+    word.forEach((letter) => {
+      if (
+        letter.color === Color.Black &&
+        // and there is not a yellow letter in the word with the same letter
+        !word.find(
+          (wordLetter) =>
+            wordLetter.color === Color.Yellow &&
+            wordLetter.letter === letter.letter
+        )
+      ) {
+        availableLetters.delete(letter.letter);
+      }
+    })
+  );
 
   return [...availableLetters];
 };
 
-const deleteIndexOfArray = <T>(array: T[], index: number) =>
-  array.slice(0, index).concat(array.slice(index + 1));
-
 export const wordle = async (state: Word[]) => {
-  const [commonWords, words] = await Promise.all([
-    getCommonWords(),
-    getWords(),
-  ]);
+  const words = await getWords();
 
   const availableLetters = [
     getAvailableLettersForColumn(0, state),
@@ -64,7 +63,7 @@ export const wordle = async (state: Word[]) => {
     getAvailableLettersForColumn(4, state),
   ];
 
-  const availableWords = [...new Set([...commonWords, ...words])]
+  const availableWords = words
     .filter(
       (word) =>
         availableLetters[0].includes(word[0]) &&

@@ -1,0 +1,5 @@
+- **all_common_words.txt**: common_words.txt + words in words.txt that are missing
+- **common_words.txt**: ~2500 most common words in English, sorted by commonality
+- **words.txt**: ~15000 English words, sorted alphabetically
+- **sorted_words.txt**: An attempt to sort words.txt by a weighted average of commonality, how common letters appear in the word, and how common the word is in the English language. This is not a perfect sort, but it's better than the default sort. Sorted by scripts/order_words.ts
+- **past_wordle_words.txt**: A list of words that were used in the past Wordle. Used in test_words.ts
