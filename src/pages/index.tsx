@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Letter from "@/components/letter";
 import LetterInput from "@/components/letter_input";
 import { wordle } from "@/utils/wordle";
@@ -10,7 +10,7 @@ type Props = {
   words: string[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getStaticPrGetStaticProps: GetStaticProps<Props> = async () => {
   try {
     const words = await wordle([]);
     return {
