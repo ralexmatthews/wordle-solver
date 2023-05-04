@@ -10,7 +10,7 @@ type Props = {
   words: string[];
 };
 
-export const getStaticPrGetStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
     const words = await wordle([]);
     return {
